@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const input = document.getElementById('input');
     const button = document.getElementById('button');
     const todo = document.getElementById('todo');
+    const inputBox = document.querySelector('.inputContainer')
 
     let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
 
@@ -12,25 +13,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
     button.addEventListener('click', () => {
         let inputText = input.value.trim();
-        if (!inputText) return;
-
-        const newTask = {
-            _id: Date.now(),
-            text: inputText,
-            isCompleted: false
+        if (!inputText) {
+            inputBox.classList.add('error')
+            setTimeout(() => {
+                inputBox.classList.remove('error')
+            }, 1000);
         }
+        else {
+            const newTask = {
+                _id: Date.now(),
+                text: inputText,
+                isCompleted: false
+            }
 
-        // console.log(newTask)
-        tasks.push(newTask)
-        // console.log(tasks)
+            // console.log(newTask)
+            tasks.push(newTask)
+            // console.log(tasks)
 
-        saveTask();
-        //save new tasks array to local storage
+            saveTask();
+            //save new tasks array to local storage
 
-        renderTask(newTask);
-        //render new task on screen
-        input.value = " ";    //clear input box
-
+            renderTask(newTask);
+            //render new task on screen
+            input.value = " ";    //clear input box
+        }
     })
 
     function renderTask(task) {
